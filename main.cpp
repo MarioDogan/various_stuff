@@ -42,13 +42,13 @@ int main(int argc, char **argv)
     cmd5.setActor(ptr);
     var = cmd3;
     int i = 0;
-    test(i++, i++, i++);
+    //test(i++, i++, i++);
   /*  std::cout << var.index() << '\n';
     qu.push(var);
     var = cmd5;
     std::cout << var.index() << '\n';*/
     const std::chrono::time_point<std::chrono::steady_clock> trigger_Start = std::chrono::steady_clock::now();
-    for(int64_t i = 0; i < 10000000; ++i)
+    for(int64_t i = 0; i < 1; ++i)
     {
         uint8_t *tArr = (uint8_t *)calloc(1,4096);
        /* qu.push(var);
@@ -71,7 +71,7 @@ int main(int argc, char **argv)
     std::queue<std::shared_ptr<command_vrtp>> qu2;
     
     const std::chrono::time_point<std::chrono::steady_clock> trigger_Start2 = std::chrono::steady_clock::now();
-    for(int64_t i = 0; i < 10000000; ++i)
+    for(int64_t i = 0; i < 1; ++i)
     {
         memset(tArr2,0,sizeof(tArr2));
         tArr2[0] = 1;
@@ -91,5 +91,9 @@ int main(int argc, char **argv)
     for(const auto& c : vec){
         std::cout << c << '\n';
     }
+    
+    std::cout << "orCombinator<isPtr,isConst>::lambda<int>::value " << orCombinator<isPtr,isConst>::lambda<int>::value << '\n';
+    std::cout << "orCombinator<isPtr,isConst>::lambda<int>::value " << orCombinator<isPtr,isConst>::lambda<const int>::value << '\n';
+    std::cout << "orCombinator<isPtr,isConst>::lambda<int>::value " << orCombinator<isPtr,isConst>::lambda<int* const>::value << '\n';
 	return 0;
 }
