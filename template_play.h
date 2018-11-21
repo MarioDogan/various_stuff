@@ -61,4 +61,57 @@ struct orCombinator{
     };
     
 };
+
+template<template<typename> class predicate, class... list> 
+struct all_same_pred;
+
+template<template<typename> class predicate>
+struct all_same_pred<predicate>{
+    static const bool value = true;
+};
+
+template<template<typename> class predicate, typename head, typename... tail>
+struct all_same_pred<predicate, head, tail...>{
+  static const bool value = predicate<head>::value && all_same_pred<predicate, tail...>::value;
+};
+
+struct f_square{
+    static constexpr int fun(int val){return val * val;};
+};
+
+struct f_sum{
+    static constexpr int fun(int val){return ++val;};
+};
+
+template<typename T, int val>
+struct foldR{
+  static constexpr int value = T::fun(val);  
+};
+
+template<template<typename, int> class, int, typename...>
+struct fold_right;
+
+template<template<typename,int> class f, int init>
+struct fold_right<f, init>{
+    static constexpr int value = init;
+};
+
+template<template<typename,int> typename f, int init, typename head, typename... tail>
+struct fold_right<f,init,head,tail...>{
+    static constexpr int value = f<head,fold_right<f,init,tail... >::value>::value;
+};
+
+template<int...> 
+struct sum_;
+
+template<>
+struct sum_<>{
+    static constexpr int value = 0;
+};
+
+template<int head, int... tail>
+struct sum_<head, tail...>{
+    static constexpr int value = head + sum_<tail...>::value;
+};
+
 #endif /*TEMPLATE_PLAY_H*/
