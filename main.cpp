@@ -26,6 +26,10 @@ int test(const int num1, const int num2, const int num3) {
     return 0;
 }
 
+struct dum{
+    uint8_t tArr2[4096];
+};
+
 uint8_t tArr2[4096] = {0};
 
 int main(int argc, char **argv)
@@ -42,6 +46,8 @@ int main(int argc, char **argv)
     cmd5.setActor(ptr);
     var = cmd3;
     int i = 0;
+    auto dum1 = std::make_unique<dum>();
+    std::cout << "Sizeof " << sizeof(dum1->tArr2) << '\n';
     //test(i++, i++, i++);
   /*  std::cout << var.index() << '\n';
     qu.push(var);
@@ -76,7 +82,7 @@ int main(int argc, char **argv)
         memset(tArr2,0,sizeof(tArr2));
         tArr2[0] = 1;
         tArr2[2048] = 1;
-    /*    qu2.push(cm_vrtp);
+      /*   qu2.push(cm_vrtp);
         //qu2.emplace(std::make_shared<generic_vrtp<dummyActor>>(ptr));
         auto front_value=std::move(qu2.front());
         qu2.pop();
@@ -95,5 +101,14 @@ int main(int argc, char **argv)
     std::cout << "orCombinator<isPtr,isConst>::lambda<int>::value " << orCombinator<isPtr,isConst>::lambda<int>::value << '\n';
     std::cout << "orCombinator<isPtr,isConst>::lambda<int>::value " << orCombinator<isPtr,isConst>::lambda<const int>::value << '\n';
     std::cout << "orCombinator<isPtr,isConst>::lambda<int>::value " << orCombinator<isPtr,isConst>::lambda<int* const>::value << '\n';
+    
+    
+    std::cout << "all_same_pred<isPtr,int*,int*,int*>::value " << all_same_pred<isPtr,int*,int*,int*>::value << '\n';
+    std::cout << "all_same_pred<isPtr,int,int,int,int>::value " << all_same_pred<isConst,const int,int,const int,const int>::value << '\n';
+    
+    
+    std::cout << "fold_right " << fold_right<foldR,0,f_square,f_sum,f_sum,f_sum>::value << '\n';
+    
+    std::cout << "sum " << sum_<1,2,3,4,5,6,7>::value << '\n';
 	return 0;
 }
