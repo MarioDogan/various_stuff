@@ -83,6 +83,15 @@ struct f_sum{
     static constexpr int fun(int val){return ++val;};
 };
 
+struct f_order{
+    static constexpr int fun(int val)
+    {
+        if(val != 0)
+            return ++val;
+        return val;
+    };
+};
+
 template<typename T, int val>
 struct foldR{
   static constexpr int value = T::fun(val);  
@@ -113,5 +122,48 @@ template<int head, int... tail>
 struct sum_<head, tail...>{
     static constexpr int value = head + sum_<tail...>::value;
 };
+
+template<int...> 
+struct len_;
+
+template<>
+struct len_<>{
+    static constexpr int value = 0;
+};
+
+template<int head, int... tail>
+struct len_<head, tail...>{
+    static constexpr int value = 1 + len_<tail...>::value;
+};
+
+
+template<int...> 
+struct order_;
+
+template<>
+struct order_<>{
+    static constexpr int value = 0;
+};
+
+template<int head, int... tail>
+struct order_<head, tail...>{
+    static constexpr int value = (head != 0 ? 1:0) + order_<tail...>::value;
+};
+
+
+//template<template<typename...> class l, template<typename...> class o, typename...> 
+//struct combine_;
+
+/*
+template<>
+struct combine_<order_, len_, 0>{
+    static constexpr int value = 0;
+};*/
+
+template<int... tail>
+struct combine_{
+    static constexpr int value = order_<tail...>::value + len_<tail...>::value;
+};
+
 
 #endif /*TEMPLATE_PLAY_H*/

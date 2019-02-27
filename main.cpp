@@ -102,13 +102,33 @@ int main(int argc, char **argv)
     std::cout << "orCombinator<isPtr,isConst>::lambda<int>::value " << orCombinator<isPtr,isConst>::lambda<const int>::value << '\n';
     std::cout << "orCombinator<isPtr,isConst>::lambda<int>::value " << orCombinator<isPtr,isConst>::lambda<int* const>::value << '\n';
     
+    /*
+    template<template<typename> class predicate, class... list> 
+struct all_same_pred;
+
+template<template<typename> class predicate>
+struct all_same_pred<predicate>{
+    static const bool value = true;
+};
+
+template<template<typename> class predicate, typename head, typename... tail>
+struct all_same_pred<predicate, head, tail...>{
+  static const bool value = predicate<head>::value && all_same_pred<predicate, tail...>::value;
+};*/
+
     
     std::cout << "all_same_pred<isPtr,int*,int*,int*>::value " << all_same_pred<isPtr,int*,int*,int*>::value << '\n';
     std::cout << "all_same_pred<isPtr,int,int,int,int>::value " << all_same_pred<isConst,const int,int,const int,const int>::value << '\n';
     
     
-    std::cout << "fold_right " << fold_right<foldR,0,f_square,f_sum,f_sum,f_sum>::value << '\n';
+    std::cout << "fold_right " << fold_right<foldR,0,f_order,f_order,f_order,f_order>::value << '\n';
     
     std::cout << "sum " << sum_<1,2,3,4,5,6,7>::value << '\n';
-	return 0;
+    
+    std::cout << "order " << order_<1,0,0>::value << '\n';
+    
+    std::cout << "len " << len_<1,0,0>::value << '\n';
+    
+    std::cout << "combine_ " << combine_<1,0,0>::value << '\n';
+    return 0;
 }
