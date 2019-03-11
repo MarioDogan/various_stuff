@@ -151,8 +151,10 @@ struct order_<head, tail...>{
 };
 
 
-//template<template<typename...> class l, template<typename...> class o, typename...> 
-//struct combine_;
+template<template<int...> class l, template<int...> class o, int... tail> 
+struct combine_{
+    static constexpr int value = l<tail...>::value + o<tail...>::value;
+};
 
 /*
 template<>
@@ -161,9 +163,22 @@ struct combine_<order_, len_, 0>{
 };*/
 
 template<int... tail>
-struct combine_{
-    static constexpr int value = order_<tail...>::value + len_<tail...>::value;
+struct combine_<len_, order_, tail...>{
+   // static constexpr int value = combine_<len_, order_ , 1,0,0>::value;
+    static constexpr int value = len_<tail...>::value + order_<tail...>::value;
 };
+
+bool allVar(){
+  return true;
+}
+
+template<typename T, typename ...Ts>
+bool allVar(T t, Ts ... ts){
+  return t && allVar(ts...);
+}
+
+template<typename... Args>
+bool all(Args... args) { return (... && args); }
 
 
 #endif /*TEMPLATE_PLAY_H*/
