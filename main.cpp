@@ -265,14 +265,24 @@ struct all_same_pred<predicate, head, tail...>{
    
     std::vector<uint64_t> in{1, 4, 6, 89, 56, 45, 7};
     
-    for(auto&& n : in | my_view::add_constant | view::take(100))
+    for(auto&& n : in | my_view::add_constant | view::take(3))
     {
         std::cout << n << ' ';
     }
     
+    auto dummyAction = [](auto x){ return x*x;};
+    
+    in |= action::transform(dummyAction);
+    
     std::cout << std::endl;
     
-    auto squares = view::transform(view::ints(0), [](int i){return i*i;});
+    for(auto&& n : in)
+    {
+        std::cout << n << ' ';
+    }
+    std::cout << std::endl;
+    
+    auto squares = view::transform(view::ints(1), [](int i){return i*i;});
     for(int i : squares | view::take(4))
         std::cout << i << ' ';
     
